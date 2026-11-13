@@ -185,26 +185,35 @@ void floydWarshall(void)
 {
     int i, j, k;
 
+ 
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             if (i == j)
-                distancia[i][j] = 0;
+                distancia[i][j] = 0;              
             else if (grafo[i][j] > 0)
-                distancia[i][j] = grafo[i][j];
+                distancia[i][j] = grafo[i][j];     
             else
-                distancia[i][j] = INF;
-        }
+                distancia[i][j] = INF;             
     }
 
+    
     for (k = 0; k < N; k++) {
         for (i = 0; i < N; i++) {
             for (j = 0; j < N; j++) {
-
                 if (distancia[i][k] + distancia[k][j] < distancia[i][j]) {
                     distancia[i][j] = distancia[i][k] + distancia[k][j];
                 }
-
             }
+        }
+    }
+
+    
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            if (distancia[i][j] < INF)
+                alcanca[i][j] = 1;                 
+            else
+                alcanca[i][j] = 0;                  
         }
     }
 }
@@ -213,28 +222,27 @@ void exibirMatriz(void)
 {
     int i, j;
 
-    printf("\nMATRIZ DE ALCANCABILIDADE (METROS)\n\n");
+    printf("\nMATRIZ DE ALCANCABILIDADE\n\n");
 
-    printf("%-15s", "");
-
-    for (i = 0; i < N; i++) {
-        printf("%-15s", nomes[i]);
-    }
-
+    printf("  ");
+    for (i = 0; i < N; i++)
+        printf("%d ", i + 1);                       
     printf("\n");
 
     for (i = 0; i < N; i++) {
-        printf("%-15s", nomes[i]);
-
-        for (j = 0; j < N; j++) {
-            if (distancia[i][j] == INF)
-                printf("%-15s", "INF");
-            else
-                printf("%-15d", distancia[i][j]);
-        }
-
+        printf("%d ", i + 1);                      
+        for (j = 0; j < N; j++)
+            printf("%d ", alcanca[i][j]);          
         printf("\n");
     }
+
+    printf("\n1 - Existe caminho\n");
+    printf("0 - Nao existe caminho\n\n");
+
+    for (i = 0; i < N; i++)                       
+        printf("%d = %s\n", i + 1, nomes[i]);
+
+    printf("\n=======================================\n");
 }
 
 
