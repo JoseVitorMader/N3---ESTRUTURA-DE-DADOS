@@ -10,7 +10,7 @@ char nomes[N][20] = {"Bloco A", "Bloco B", "Laboratorio", "Refeitorio", "Bibliot
 
 int grafo[N][N];   /* matriz de adjacencia (distancias; 0 = sem ligacao direta) */
 int alcanca[N][N]; /* matriz de alcancabilidade (1 = existe caminho, 0 = nao) */
-
+int distancia[N][N];
 
 
 void criarGrafo(void);
@@ -183,18 +183,60 @@ void verificarConexao(void)
 
 void floydWarshall(void)
 {
-    /* luis aqui */
-    /* tem que preencher a matriz global alcanca[][] com 1 ou 0, reocmento dar uma olhada no yt que tem bastante forma de fazer
-    n vai inventar moda de fazer diferente, jaq tem q ser o algoritimo dele em especifico
-    da de só pegar o código dele pronto e adaptar*/
+    int i, j, k;
 
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            if (i == j)
+                distancia[i][j] = 0;
+            else if (grafo[i][j] > 0)
+                distancia[i][j] = grafo[i][j];
+            else
+                distancia[i][j] = INF;
+        }
+    }
+
+    for (k = 0; k < N; k++) {
+        for (i = 0; i < N; i++) {
+            for (j = 0; j < N; j++) {
+
+                if (distancia[i][k] + distancia[k][j] < distancia[i][j]) {
+                    distancia[i][j] = distancia[i][k] + distancia[k][j];
+                }
+
+            }
+        }
+    }
 }
 
 void exibirMatriz(void)
 {
-    /* luis aqui */
-    /*achou q ia ser easy né luis? zoeira, so pega e faz o printf da função*/ 
+    int i, j;
+
+    printf("\nMATRIZ DE ALCANCABILIDADE (METROS)\n\n");
+
+    printf("%-15s", "");
+
+    for (i = 0; i < N; i++) {
+        printf("%-15s", nomes[i]);
+    }
+
+    printf("\n");
+
+    for (i = 0; i < N; i++) {
+        printf("%-15s", nomes[i]);
+
+        for (j = 0; j < N; j++) {
+            if (distancia[i][j] == INF)
+                printf("%-15s", "INF");
+            else
+                printf("%-15d", distancia[i][j]);
+        }
+
+        printf("\n");
+    }
 }
+
 
 /* ================= RF05 - ISA ================= */
 /* Recebe o resultado do Dijkstra do meu (jose):
