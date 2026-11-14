@@ -177,8 +177,23 @@ void menorRota(void)
 
 void verificarConexao(void)
 {
-    /* carla aqui */
-    /* dica: usa a funcao lerPredio() para pegar os dois predios e consulta a matriz alcanca[][] q fai ser mel na chupetinha */
+    int inicio, fim;
+    
+    listarPredios();
+
+    inicio = lerPredio("Primeiro predio (numero ou nome): ");
+    fim = lerPredio("Segundo predio (numero ou nome): ");
+
+    if (inicio < 0 || fim < 0) {
+        printf("\nPredio invalido.\n");
+        return;
+    }
+
+    if(alcanca [inicio][fim] == 1){
+        printf("\nExiste caminho entre %s e %s.\n", nomes[inicio], nomes[fim]);
+    }else{
+        printf("\nNao existe caminho entre %s e %s.\n", nomes[inicio], nomes[fim]);
+    }
 }
 
 void floydWarshall(void)
