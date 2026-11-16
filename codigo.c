@@ -1,4 +1,4 @@
-/* INTEGRANTES: Nykolas, Jose, Carla, Luis, Isa */
+/* INTEGRANTES: Nykolas, Jose, Carla, Luis, Isadora */
 #include <stdio.h>
 #include <string.h>
 
@@ -209,6 +209,8 @@ void floydWarshall(void)
                 distancia[i][j] = grafo[i][j];     
             else
                 distancia[i][j] = INF;             
+        }
+
     }
 
     
@@ -267,5 +269,41 @@ void exibirMatriz(void)
    anterior[]            -> permite montar a rota voltando do destino ate a origem (-1 = fim) */
 void exibirRota(int origem, int destino, int dist[], int anterior[])
 {
-    /* isa aqui */
+    int caminho[N];
+    int tam = 0;
+    int atual;
+    int i;
+
+
+    if (origem < 0 || destino < 0 || origem >= N || destino >= N) {
+       
+        printf("\nPredio invalido. \n");
+        return;
+    }
+
+    if (dist[destino] == INF) {
+
+        printf("\nNao existe caminho entre %s e %s.\n", nomes[origem], nomes[destino]);
+        return;
+    }
+
+    atual = destino;
+
+    while (atual != -1) {
+        caminho[tam] = atual;
+        tam++;
+        atual = anterior[atual];
+    }
+
+    printf("\n Rota: ");
+    for ( i = tam -1; i>= 0; i--) {
+        
+        printf("%s", nomes[caminho[i]]);
+        if (i > 0) {
+            printf(" -> ");
+        }
+    }
+
+    printf("\n Distancia total: %d metros\n", dist[destino]);
+    printf("\n=======================================\n");
 }
