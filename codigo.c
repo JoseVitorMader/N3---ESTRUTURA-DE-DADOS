@@ -5,7 +5,7 @@
 #define N 5      /* numero de predios */
 #define INF 9999 /* "infinito": ainda nao ha caminho */
 
-/* nomes dos predios: a posicao no vetor e o numero do predio */
+
 char nomes[N][20] = {"Bloco A", "Bloco B", "Laboratorio", "Refeitorio", "Biblioteca"};
 
 int grafo[N][N];   /* matriz de adjacencia (distancias; 0 = sem ligacao direta) */
@@ -26,28 +26,29 @@ void floydWarshall(void);                                             /* RF04 - 
 void exibirMatriz(void);                                              /* RF04 - Luis */
 void exibirRota(int origem, int destino, int dist[], int anterior[]); /* RF05 - Isa */
 
-/* ================= MAIN (pronta) ================= */
+
 int main(void)
 {
     char texto[50];
     int opcao;
 
-    criarGrafo();      /* monta o grafo */
-    floydWarshall();   /* calcula a alcancabilidade uma vez so */
+    criarGrafo();      
+    floydWarshall();   
 
     do {
-        printf("\n=======================================\n");
-        printf("       SISTEMA DE ROTAS DO CAMPUS\n");
-        printf("=======================================\n\n");
-        printf("1 - Exibir mapa do campus\n");
-        printf("2 - Encontrar menor rota entre dois predios\n");
-        printf("3 - Verificar conexao entre dois predios\n");
-        printf("4 - Exibir matriz de alcancabilidade\n");
-        printf("0 - Sair\n\n");
+        printf("\n==========================================\n");
+        printf("|          SISTEMA DE ROTAS DO CAMPUS       |\n");
+        printf("============================================\n");
+        printf("|1 - Exibir mapa do campus                  |\n");
+        printf("|2 - Encontrar menor rota entre dois predios|\n");
+        printf("|3 - Verificar conexao entre dois predios   |\n");
+        printf("|4 - Exibir matriz de alcancabilidade       |\n");
+        printf("|0 - Sair                                   |\n");
+        printf("============================================\n");
         printf("Escolha uma opcao: ");
 
         fgets(texto, 50, stdin);
-        opcao = texto[0] - '0';            /* primeiro caractere vira numero */
+        opcao = texto[0] - '0';            
 
         if (opcao == 1) exibirMapa();
         else if (opcao == 2) menorRota();
@@ -84,10 +85,7 @@ void listarPredios(void)
         printf("%d - %s\n", i + 1, nomes[i]);
 }
 
-/* Le um predio: o usuario digita o numero (1 a 5) ou o nome exato.
-   Retorna o indice do predio (0 a 4) 
-   qualqur coisa, pede pra mim no zap q eu te explico melhor carlinha, mas acho q com os comentario ja vai dar de ter
-   uma noção doq fazer*/
+
 int lerPredio(char *mensagem)
 {
     char texto[50];
@@ -95,14 +93,13 @@ int lerPredio(char *mensagem)
 
     while (1) {
         printf("%s", mensagem);
-        fgets(texto, 50, stdin);                  /* le a linha digitada */
-        texto[strcspn(texto, "\n")] = '\0';       /* remove o ENTER do final */
+        fgets(texto, 50, stdin);                 
+        texto[strcspn(texto, "\n")] = '\0';     
 
         if (texto[0] >= '1' && texto[0] <= '5' && texto[1] == '\0')
-            return texto[0] - '1';                /* '1' vira 0, '2' vira 1... */
-
+            return texto[0] - '1';               
         for (i = 0; i < N; i++)
-            if (strcmp(texto, nomes[i]) == 0)     /* digitou o nome? */
+            if (strcmp(texto, nomes[i]) == 0)     
                 return i;
 
         printf("Predio invalido! Tente de novo.\n");
@@ -126,16 +123,13 @@ void exibirMapa(void)
 
 
 
-/* DIJKSTRA: calcula a menor distancia da origem ate todos os predios
-ent se alguem quiser entender, depois eu documento melhor como fazer esse caba doidera.
-   dist[v]     = menor distancia conhecida origem -> v
-   anterior[v] = predio de onde viemos para chegar em v (-1 = nenhum) */
+
 void dijkstra(int origem, int dist[], int anterior[])
 {
-    int visitado[N];  /* 1 = distancia do predio ja e definitiva */
+    int visitado[N];  
     int i, k, u, v, menor;
 
-    /* 1) inicializa: ninguem foi alcancado ainda */
+
     for (i = 0; i < N; i++) {
         dist[i] = INF;
         anterior[i] = -1;
@@ -156,15 +150,15 @@ void dijkstra(int origem, int dist[], int anterior[])
             }
 
         if (u == -1)
-            break;                         /* o que sobrou e inalcancavel */
+            break;                        
 
-        visitado[u] = 1;                   /* fixa o predio escolhido */
+        visitado[u] = 1;                  
 
-        /* relaxamento: passar por u melhora o caminho dos vizinhos? */
+      
         for (v = 0; v < N; v++)
             if (grafo[u][v] > 0 && dist[u] + grafo[u][v] < dist[v]) {
-                dist[v] = dist[u] + grafo[u][v];   /* nova distancia menor */
-                anterior[v] = u;                   /* chegamos em v vindo de u */
+                dist[v] = dist[u] + grafo[u][v];   
+                anterior[v] = u;                   
             }
     }
 }
@@ -180,8 +174,8 @@ void menorRota(void)
     origem = lerPredio("Origem (numero ou nome): ");
     destino = lerPredio("Destino (numero ou nome): ");
 
-    dijkstra(origem, dist, anterior);                  /* calcula as menores rotas */
-    exibirRota(origem, destino, dist, anterior);       /* RF05 - funcao da Isa */
+    dijkstra(origem, dist, anterior);                  
+    exibirRota(origem, destino, dist, anterior);      
 }
 
 
@@ -210,20 +204,17 @@ void floydWarshall(void)
 {
     int i, j, k;
 
- 
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
             if (i == j)
-                distancia[i][j] = 0;              
+                distancia[i][j] = 0;
             else if (grafo[i][j] > 0)
-                distancia[i][j] = grafo[i][j];     
+                distancia[i][j] = grafo[i][j];
             else
-                distancia[i][j] = INF;             
+                distancia[i][j] = INF;
         }
-
     }
 
-    
     for (k = 0; k < N; k++) {
         for (i = 0; i < N; i++) {
             for (j = 0; j < N; j++) {
@@ -234,13 +225,14 @@ void floydWarshall(void)
         }
     }
 
-    
     for (i = 0; i < N; i++) {
         for (j = 0; j < N; j++) {
-            if (distancia[i][j] < INF)
-                alcanca[i][j] = 1;                 
+            if (i == j)
+                alcanca[i][j] = 0;
+            else if (distancia[i][j] < INF)
+                alcanca[i][j] = 1;
             else
-                alcanca[i][j] = 0;                  
+                alcanca[i][j] = 0;
         }
     }
 }
@@ -249,34 +241,43 @@ void exibirMatriz(void)
 {
     int i, j;
 
-    printf("\nMATRIZ DE ALCANCABILIDADE\n\n");
+    printf("\n=======================================\n");
+    printf("       MATRIZ DE ALCANCABILIDADE\n");
+    printf("=======================================\n\n");
 
-    printf("  ");
+    printf("      ");
     for (i = 0; i < N; i++)
-        printf("%d ", i + 1);                       
+        printf("%-4d", i + 1);
     printf("\n");
 
+    printf("    --------------------------------\n");
+
     for (i = 0; i < N; i++) {
-        printf("%d ", i + 1);                      
+        printf("%-4d| ", i + 1);
+
         for (j = 0; j < N; j++)
-            printf("%d ", alcanca[i][j]);          
+            printf("%-4d", alcanca[i][j]);
+
         printf("\n");
     }
+    printf("             LEGENDA\n");
+    printf("---------------------------------------\n");
 
-    printf("\n1 - Existe caminho\n");
-    printf("0 - Nao existe caminho\n\n");
+    printf("1 - Existe um caminho entre os dois predios.\n");
+    printf("0 - Nao representa uma conexao entre predios diferentes.\n");
+    printf("    Na diagonal principal, indica o proprio predio.\n\n");
 
-    for (i = 0; i < N; i++)                       
-        printf("%d = %s\n", i + 1, nomes[i]);
+    printf("             IDENTIFICACAO\n");
+    printf("---------------------------------------\n");
+
+    for (i = 0; i < N; i++)
+        printf("%d - %s\n", i + 1, nomes[i]);
 
     printf("\n=======================================\n");
 }
 
 
-/* ================= RF05 - ISA ================= */
-/* Recebe o resultado do Dijkstra do meu (jose):
-   dist[destino] == INF  -> nao existe caminho
-   anterior[]            -> permite montar a rota voltando do destino ate a origem (-1 = fim) */
+
 void exibirRota(int origem, int destino, int dist[], int anterior[])
 {
     int caminho[N];
