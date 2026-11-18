@@ -125,7 +125,7 @@ int lerPredio(char *mensagem)
                 return i;
             }
         }
-        printf("Predio invalido! Tente de novo.\n");
+        printf("Predio invalido! Tente de novo, verifique letras maiusculas e minusculas.\n");
     }
 }
 
