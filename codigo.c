@@ -1,4 +1,4 @@
-/* INTEGRANTES: Nykolas, Jose, Carla, Luis, Isadora */
+/* INTEGRANTES: Nykolas José Köpp, José Vitor Mader, Carla Canalle Mundel, Luís Carlos Martins Junior, Isadora L. Brandt*/
 #include <stdio.h>
 #include <string.h>
 
@@ -111,7 +111,17 @@ int lerPredio(char *mensagem)
 
 void exibirMapa(void)
 {
-    /* nykolas aqui */
+	
+	printf("\n===== MAPA DO CAMPUS ===== \n\n");
+	
+    int i, j;
+    for (i = 0; i < N; i++){
+    	for (j = i+1; j < N; j++){
+    		if (grafo[i][j] > 0){
+    			printf("%s <-> %s: %dm\n", nomes[i], nomes[j], grafo[i][j]);	
+			}
+		}
+	}
 }
 
 
