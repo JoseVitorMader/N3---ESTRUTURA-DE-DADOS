@@ -77,16 +77,18 @@ int main(void)
 
     } while (opcao != 0);
 
-    printf("\nEncerrando...\n");
+    printf("\nEncerrado\n");
     return 0;
 }
 
 void criarGrafo(void)
 {
     int i, j;
-    for (i = 0; i < N; i++)
-        for (j = 0; j < N; j++)
-            grafo[i][j] = 0; /* comeca sem nenhuma ligacao */
+    for (i = 0; i < N; i++){
+        for (j = 0; j < N; j++){
+            grafo[i][j] = 0; 
+        }
+    }
 
     grafo[1][2] = grafo[2][1] = 240; /* Bloco B <-> Laboratorio */
     grafo[2][0] = grafo[0][2] = 210; /* Laboratorio <-> Bloco A */
@@ -99,8 +101,9 @@ void listarPredios(void)
 {
     int i;
     printf("\n");
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N; i++){
         printf("%d - %s\n", i + 1, nomes[i]);
+    }
 }
 
 int lerPredio(char *mensagem)
@@ -114,12 +117,14 @@ int lerPredio(char *mensagem)
         fgets(texto, 50, stdin);
         texto[strcspn(texto, "\n")] = '\0';
 
-        if (texto[0] >= '1' && texto[0] <= '5' && texto[1] == '\0')
+        if (texto[0] >= '1' && texto[0] <= '5' && texto[1] == '\0'){
             return texto[0] - '1';
-        for (i = 0; i < N; i++)
-            if (strcmp(texto, nomes[i]) == 0)
+        }
+        for (i = 0; i < N; i++){
+            if (strcmp(texto, nomes[i]) == 0){
                 return i;
-
+            }
+        }
         printf("Predio invalido! Tente de novo.\n");
     }
 }
@@ -155,31 +160,30 @@ void dijkstra(int origem, int dist[], int anterior[])
     }
     dist[origem] = 0;
 
-    /* 2) repete uma rodada para cada predio */
     for (k = 0; k < N; k++)
     {
 
-        /* escolhe o predio NAO visitado com a menor distancia */
         u = -1;
         menor = INF;
-        for (i = 0; i < N; i++)
+        for (i = 0; i < N; i++){
             if (!visitado[i] && dist[i] < menor)
             {
                 menor = dist[i];
                 u = i;
             }
-
-        if (u == -1)
+        }
+        if (u == -1){
             break;
-
+        }
         visitado[u] = 1;
 
-        for (v = 0; v < N; v++)
+        for (v = 0; v < N; v++){
             if (grafo[u][v] > 0 && dist[u] + grafo[u][v] < dist[v])
             {
                 dist[v] = dist[u] + grafo[u][v];
                 anterior[v] = u;
             }
+        }
     }
 }
 
@@ -218,7 +222,7 @@ void verificarConexao(void)
     }
     else
     {
-        printf("\nNao existe caminho entre %s e %s. Ou está indo de si mesmo para si mesmo\n", nomes[inicio], nomes[fim]);
+        printf("\nNao existe caminho entre %s e %s.\n", nomes[inicio], nomes[fim]);
     }
 }
 
@@ -230,12 +234,13 @@ void floydWarshall(void)
     {
         for (j = 0; j < N; j++)
         {
-            if (i == j)
+            if (i == j){
                 distancia[i][j] = 0;
-            else if (grafo[i][j] > 0)
+            }else if (grafo[i][j] > 0){
                 distancia[i][j] = grafo[i][j];
-            else
+            }else{
                 distancia[i][j] = INF;
+            }
         }
     }
 
@@ -258,10 +263,12 @@ void floydWarshall(void)
     {
         for (j = 0; j < N; j++)
         {
-            if (distancia[i][j] < INF)
+            if (distancia[i][j] < INF){
                 alcanca[i][j] = 1;
-            else
+            }
+            else {
                 alcanca[i][j] = 0;
+            }
         }
     }
 }
@@ -273,24 +280,26 @@ void exibirMatriz(void)
     printf("\nMATRIZ DE ALCANCABILIDADE\n\n");
 
     printf("  ");
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N; i++){
         printf("%d ", i + 1);
+    }
     printf("\n");
 
     for (i = 0; i < N; i++)
     {
         printf("%d ", i + 1);
-        for (j = 0; j < N; j++)
+        for (j = 0; j < N; j++){
             printf("%d ", alcanca[i][j]);
+        }
         printf("\n");
     }
 
     printf("\n1 - Existe caminho\n");
     printf("0 - Nao existe caminho\n\n");
 
-    for (i = 0; i < N; i++)
+    for (i = 0; i < N; i++){
         printf("%d = %s\n", i + 1, nomes[i]);
-
+    }
     printf("\n=======================================\n");
 }
 
