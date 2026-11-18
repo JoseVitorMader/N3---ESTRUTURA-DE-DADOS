@@ -50,11 +50,33 @@ int main(void)
         fgets(texto, 50, stdin);
         opcao = texto[0] - '0';            
 
-        if (opcao == 1) exibirMapa();
-        else if (opcao == 2) menorRota();
-        else if (opcao == 3) verificarConexao();
-        else if (opcao == 4) exibirMatriz();
-        else if (opcao != 0) printf("\nOpcao invalida!\n");
+        switch (opcao) {
+
+            case 1:
+                exibirMapa();
+                break;
+
+            case 2:
+                menorRota();
+                break;
+
+            case 3:
+                verificarConexao();
+                break;
+
+            case 4:
+                exibirMatriz();
+                break;
+
+            case 0:
+                printf("\nEncerrando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
     } while (opcao != 0);
 
     printf("\nEncerrando...\n");
