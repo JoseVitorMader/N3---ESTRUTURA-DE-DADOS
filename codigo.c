@@ -196,7 +196,7 @@ void verificarConexao(void)
     if(alcanca [inicio][fim] == 1){
         printf("\nExiste caminho entre %s e %s.\n", nomes[inicio], nomes[fim]);
     }else{
-        printf("\nNao existe caminho entre %s e %s.\n", nomes[inicio], nomes[fim]);
+        printf("\nNao existe caminho entre %s e %s. Ou está indo de si mesmo para si mesmo\n", nomes[inicio], nomes[fim]);
     }
 }
 
